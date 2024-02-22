@@ -16,6 +16,30 @@ import (
 var (
 	//TeleToken bot
 	TeleToken = os.Getenv("TELE_TOKEN")
+
+	// Universal markup builders.
+	menu 		= &telebot.ReplyMarkup{ResizeKeyboard: true}
+	selector 	= &telebot.ReplyMarkup{}
+
+	// Reply buttons.
+	btnStart    = menu.Text("🇺🇦 Start")
+	btnHelp 	= menu.Text("⚙ Help")
+	btnDate     = menu.Text("📆 Date")
+
+	// Inline buttons.
+	//
+	// Pressing it will cause the client to
+	// send the bot a callback.
+	//
+	// Make sure Unique stays unique as per button kind
+	// since it's required for callback routing to work.
+	//
+	
+	btnPrev = selector.Data("⬅", "prev", "...")
+	btnNext = selector.Data("➡", "next", "...")
+
+	// Get current date
+	currentTime = time.Now()
 )
 
 // kbotCmd represents the kbot command
@@ -37,6 +61,41 @@ to quickly create a Cobra application.`,
 			Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
 		})
 
+		menu.Reply(
+			menu.Row(btnStart),
+			menu.Row(btnHelp),
+			menu.Row(btnDate),
+		)
+
+		selector.Inline(
+			selector.Row(btnPrev, btnNext),
+		)
+		kbot.Handle("/start", func(c telebot.Context) error {
+			return c.Send("Hello!", menu)
+		})
+
+		kbot.Handle(&btnStart, func(c telebot.Context) error {
+			return c.Send("Hello!", menu)
+		})
+
+		// On reply button pressed (message)
+		kbot.Handle(&btnHelp, func(c telebot.Context) error {
+			return c.Send(	"/start  - привітання та початок роботи з kbot" + 
+							"\n/help - виводить перелік можливостей kbot" +  
+							"\n/date - отримай поточну дату та час")
+		})
+		
+		// On inline button pressed (callback)
+		kbot.Handle(&btnPrev, func(c telebot.Context) error {
+			return c.Respond()
+		})
+
+		// On inline button pressed (Date)
+		kbot.Handle(&btnDate, func(c telebot.Context) error {
+			return c.Send(currentTime.String() + "\nБезкорисна функція! Но най буде 😌")
+		})
+
+		// Перевіряємо наявність токена Телеграм
 		if err != nil {
 			log.Fatalf("Please check TELE_TOKEN env variable. %s", err)
 			return
@@ -49,6 +108,10 @@ to quickly create a Cobra application.`,
 			switch payload {
 			case "hello":
 				err = m.Send(fmt.Sprintf("Hello I'm Kbot %s", appVersion))
+			case "linux": 
+				err = m.Send(fmt.Sprintf("This is Linux!"))
+			default: 
+				err = m.Send(fmt.Sprintf("Unrecognized command. Say what?"))
 			}
 			return err
 		})
