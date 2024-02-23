@@ -17,12 +17,6 @@
 | &bull; Створити новий проєкт на GitHub та налаштувати Git.  | <a href="https://github.com/AlbertRipak/kbot">KBOT</a>  	            |
 | &bull; Створити Telegram-бота за допомогою BotFather.  | <a href="#BotFather">Приклад тут!</a>|
 | &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
-| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
-| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
-| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
-| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
-| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
-
 
 Створити Telegram-бота за допомогою BotFather.
 Отримати токен бота та зберегти його у змінну середовища TELE_TOKEN.
@@ -38,7 +32,7 @@
 Надіслати посилання на репозиторій як відповідь
 
 BotFather
-<a id="BotFather">![Image](./data/go-blue.svg)</a>
+<a id="BotFather">![Image](./data/botFather.svg)</a>
 
 P.S.
 1. Для ємоджі використувувався сайт <a href="https://emojipedia.org/">emojipedia.org</a>!
