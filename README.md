@@ -10,47 +10,18 @@
 &bull; Додати ці функції до методів об'єкта telebot.Bot;<br>
 &bull; Обробляти повідомлення відповідно до їх типу та вмісту.<br>
 
-<b>Рекомендації до виконання:</b><br>
-
-<table>
-    <tr>
-        <td>&bull; Встановити Golang та налаштувати середовище розробки (Codespaces вже містить всі необхідні налаштування) (Інструкція для OC Windows)</td>
-        <td><a href="https://go.dev/doc/install">Завантажити Golang</a> та встановити на ваш ПК!</td>
-        <td><a href=""></a></td>
-        <td><a href=""></a></td>
-        <td><a href=""></a></td>
-        <td><a href=""></a></td>
-    </tr>
-    <tr>
-        <td>&bull; Створити новий проєкт на GitHub та налаштувати Git.</td>
-        <td><a href="https://github.com/AlbertRipak/kbot">KBOT</a></td>
-    </tr>
-    <tr>
-        <td>&bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import</td>
-        <td>```go 
-                go install github.com/spf13/cobra-cli@latest 
-            ```
-            ```go 
-                cobra-cli init
-            ```        
-            ```go 
-                cobra-cli add kbot
-            ```        
-</td>
-    </tr>
-    <tr>
-        <td>&bull; </td>
-        <td><a href=""></a></td>
-    </tr>
-    <tr>
-        <td>&bull; </td>
-        <td><a href=""></a></td>
-    </tr>
-    <tr>
-        <td>&bull; </td>
-        <td><a href=""></a></td>
-    </tr>
-</table>
+<b>Таблиця рекомендацій для виконання:</b>
+| Рекомендації                                                                       | Виконання                                    |
+|------------------------------------------------------------------------------------|----------------------------------------------|
+| &bull; Встановити Golang та налаштувати середовище розробки (Codespaces вже містить всі необхідні налаштування) (Інструкція для OC Windows)  | <a href="https://go.dev/doc/install">Завантажити Golang</a> та встановити на ваш ПК! |    	            |
+| &bull; Створити новий проєкт на GitHub та налаштувати Git.  | <a href="https://github.com/AlbertRipak/kbot">KBOT</a>  	            |
+| &bull; Створити Telegram-бота за допомогою BotFather.  | <a href="#BotFather">Приклад тут!</a>|
+| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
+| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
+| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
+| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
+| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
+| &bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import  | ```cobra-cli add kbot```      	            |
 
 
 Створити Telegram-бота за допомогою BotFather.
@@ -66,6 +37,8 @@
 Завантажити код на GitHub.
 Надіслати посилання на репозиторій як відповідь
 
+BotFather
+<a id="BotFather">![Image](./data/go-blue.svg)</a>
 
 P.S.
 1. Для ємоджі використувувався сайт <a href="https://emojipedia.org/">emojipedia.org</a>!
