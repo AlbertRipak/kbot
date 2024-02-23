@@ -15,18 +15,44 @@
 <table>
     <tr>
         <td>&bull; Встановити Golang та налаштувати середовище розробки (Codespaces вже містить всі необхідні налаштування) (Інструкція для OC Windows)</td>
-        <td><a href=""></a></td>
+        <td><a href="https://go.dev/doc/install">Завантажити Golang</a> та встановити на ваш ПК!</td>
         <td><a href=""></a></td>
         <td><a href=""></a></td>
         <td><a href=""></a></td>
         <td><a href=""></a></td>
     </tr>
     <tr>
-        <td><a href="https://go.dev/doc/install">Завантажити Golang</a> та встановити на ваш ПК!</td>
+        <td>&bull; Створити новий проєкт на GitHub та налаштувати Git.</td>
+        <td><a href="https://github.com/AlbertRipak/kbot">KBOT</a></td>
+    </tr>
+    <tr>
+        <td>&bull; Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import</td>
+        <td>```go 
+                go install github.com/spf13/cobra-cli@latest 
+            ```
+            ```go 
+                cobra-cli init
+            ```        
+            ```go 
+                cobra-cli add kbot
+            ```        
+</td>
+    </tr>
+    <tr>
+        <td>&bull; </td>
+        <td><a href=""></a></td>
+    </tr>
+    <tr>
+        <td>&bull; </td>
+        <td><a href=""></a></td>
+    </tr>
+    <tr>
+        <td>&bull; </td>
+        <td><a href=""></a></td>
     </tr>
 </table>
-Створити новий проєкт на GitHub та налаштувати Git.
-Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import (практичне завдання продемонстровано в лекції 2.4)
+
+
 Створити Telegram-бота за допомогою BotFather.
 Отримати токен бота та зберегти його у змінну середовища TELE_TOKEN.
 Імпортувати необхідні бібліотеки.
