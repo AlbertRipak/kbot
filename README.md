@@ -11,15 +11,18 @@
 &bull; Обробляти повідомлення відповідно до їх типу та вмісту.<br>
 
 <b>Рекомендації до виконання:</b><br>
-&bull; Встановити Golang та налаштувати середовище розробки (Codespaces вже містить всі необхідні налаштування) (Інструкція для OC Windows)
+
 <table>
     <tr>
+        <td>&bull; Встановити Golang та налаштувати середовище розробки (Codespaces вже містить всі необхідні налаштування) (Інструкція для OC Windows)</td>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+    </tr>
+    <tr>
         <td><a href="https://go.dev/doc/install">Завантажити Golang</a> та встановити на ваш ПК!</td>
-        <td><a href=""></a></td>
-        <td><a href=""></a></td>
-        <td><a href=""></a></td>
-        <td><a href=""></a></td>
-        <td><a href=""></a></td>
     </tr>
 </table>
 Створити новий проєкт на GitHub та налаштувати Git.
