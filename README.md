@@ -23,4 +23,5 @@ gofmt -s -w ./
 ```
 
 <a href="https://pkg.go.dev/cmd/gofmt">Документація по gofmt!</a>
-![Image](./data/go-blue.svg)
+
+<a href="https://go.dev/">![Image](./data/go-blue.svg)</a>
