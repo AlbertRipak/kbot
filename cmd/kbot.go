@@ -18,13 +18,13 @@ var (
 	TeleToken = os.Getenv("TELE_TOKEN")
 
 	// Universal markup builders.
-	menu 		= &telebot.ReplyMarkup{ResizeKeyboard: true}
-	selector 	= &telebot.ReplyMarkup{}
+	menu     = &telebot.ReplyMarkup{ResizeKeyboard: true}
+	selector = &telebot.ReplyMarkup{}
 
 	// Reply buttons.
-	btnStart    = menu.Text("🇺🇦 Start")
-	btnHelp 	= menu.Text("⚙ Help")
-	btnDate     = menu.Text("📆 Date")
+	btnStart = menu.Text("🇺🇦 Start")
+	btnHelp  = menu.Text("⚙ Help")
+	btnDate  = menu.Text("📆 Date")
 
 	// Inline buttons.
 	//
@@ -34,7 +34,7 @@ var (
 	// Make sure Unique stays unique as per button kind
 	// since it's required for callback routing to work.
 	//
-	
+
 	btnPrev = selector.Data("⬅", "prev", "...")
 	btnNext = selector.Data("➡", "next", "...")
 
@@ -71,20 +71,32 @@ to quickly create a Cobra application.`,
 			selector.Row(btnPrev, btnNext),
 		)
 		kbot.Handle("/start", func(c telebot.Context) error {
-			return c.Send("Hello!", menu)
+			return c.Send("Здоровенькі були!", menu)
+		})
+
+		kbot.Handle("/help", func(c telebot.Context) error {
+			return c.Send("/start  - привітання та початок роботи з kbot" +
+				"\n/help - виводить перелік можливостей kbot" +
+				"\n/date - отримай поточну дату та час")
+		})
+
+		kbot.Handle("/helpNext", func(c telebot.Context) error {
+			return c.Send("/start  - привітання та початок роботи з kbot" +
+				"\n/help - виводить перелік можливостей kbot" +
+				"\n/date - отримай поточну дату та час")
 		})
 
 		kbot.Handle(&btnStart, func(c telebot.Context) error {
-			return c.Send("Hello!", menu)
+			return c.Send("Здоровенькі були!", menu)
 		})
 
 		// On reply button pressed (message)
 		kbot.Handle(&btnHelp, func(c telebot.Context) error {
-			return c.Send(	"/start  - привітання та початок роботи з kbot" + 
-							"\n/help - виводить перелік можливостей kbot" +  
-							"\n/date - отримай поточну дату та час")
+			return c.Send("/start  - привітання та початок роботи з kbot" +
+				"\n/help - виводить перелік можливостей kbot" +
+				"\n/date - отримай поточну дату та час")
 		})
-		
+
 		// On inline button pressed (callback)
 		kbot.Handle(&btnPrev, func(c telebot.Context) error {
 			return c.Respond()
@@ -108,10 +120,8 @@ to quickly create a Cobra application.`,
 			switch payload {
 			case "hello":
 				err = m.Send(fmt.Sprintf("Hello I'm Kbot %s", appVersion))
-			case "linux": 
-				err = m.Send(fmt.Sprintf("This is Linux!"))
-			default: 
-				err = m.Send(fmt.Sprintf("Unrecognized command. Say what?"))
+			default:
+				err = m.Send(fmt.Sprintf("Ой, чоловіче, що ж тиж хочеш?" + "\nТицьни сюди і дізнаєшся що я вмію /help" + "\nабо сюди і дізнайся що я вмію тяльки це /helpNext"))
 			}
 			return err
 		})
