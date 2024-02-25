@@ -28,6 +28,9 @@
 | &bull; Створити файл <a href="https://github.com/AlbertRipak/kbot">README</a> з описом проєкту, посиланням на бота у форматі https://t.me/albertripak_bot, включаючи інструкції для встановлення та приклади використання команд.</a>|
 | &bull; <a href="https://github.com/AlbertRipak/kbot">Завантажити код на GitHub</a>.
 
+
+ <a id="newProjectGit">![Image](./data/newProjectGit.gif)</a>
+
 <b><a id="cobra">GITHUB.COM/SPF13/COBRA</a></b>
 Генеруємо початковий код
 ```cmd
@@ -127,8 +130,6 @@ export TELE_TOKEN
 go build -ldflags "-X 'github.com/AlbertRipak/kbot/cmd.appVersion=1.0.5'"
 ./kbot start
 ```
-
-![Image](./data/cobra.gif)
 
 P.S.
 1. Для ємоджі використувувався сайт <a href="https://emojipedia.org/">emojipedia.org</a>!
