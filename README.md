@@ -16,7 +16,7 @@
 | &bull; Встановити Golang та налаштувати середовище розробки.  <a href="https://go.dev/doc/install">Інструкція для OC Windows </a> |
 | &bull; <a href="#newProjectGit">Створюємо новий проєкт на GitHub.</a>|
 | &bull; <a href="#cobra">Додати залежність на бібліотеку github.com/spf13/cobra за домопогою import.</a>  |
-| &bull; <a id="telegram_bot">Створити Telegram-бота за допомогою<a> <a href="https://telegram.me/BotFather">BotFather.</a>  |
+| &bull; Створити Telegram-бота за допомогою <a href="https://telegram.me/BotFather">BotFather.</a>  |
 | &bull; <a href="#tele_token">Отримати токен бота та зберегти його у змінну середовища TELE_TOKEN.</a>|
 | &bull; <a href="#import_package">Імпортувати необхідні бібліотеки.</a> |
 | &bull; <a href="#import_telebot">Встановити бібліотеку gopkg.in/telebot.v3 за допомогою go get.</a> |
@@ -74,7 +74,7 @@ import (
     telebot "gopkg.in/telebot.v3"
 )
 ```
-<b><a id="import_telebot">Щоб імпортувати необхідні бібліотеки потрібно:</a></b>
+<b><a id="import_package">Щоб імпортувати необхідні бібліотеки потрібно:</a></b>
 у файл cmd/kbot.go в блок import додати наступне
 ```cmd
 import (
