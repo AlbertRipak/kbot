@@ -73,7 +73,7 @@ import (
 )
 ```
 
-<b><a id="tele_token">Щоб встановити бібліотеку telebot.v3 потрібно:</a></b>
+<b><a id="import_telebot">Щоб встановити бібліотеку telebot.v3 потрібно:</a></b>
 у файл cmd/kbot.go в блок import додати рядок telebot "gopkg.in/telebot.v3"
 ```cmd
 import (
@@ -87,7 +87,7 @@ import (
 )
 ```
 
-<b><a href="#get_token">Щоб отримати токен зі змінної середовища потрібно: </a></b>
+<b><a id="get_token">Щоб отримати токен зі змінної середовища потрібно: </a></b>
 у файлі cmd/kbot.go додати в блок var () наступний рядок
 ```cmd
 var (
