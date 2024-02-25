@@ -60,6 +60,18 @@ BotFather надасть вам токен за допомогою якого м
 TELE_TOKEN=[copy and past your token here]
 export TELE_TOKEN
 ```
+<b><a id="import_package">Щоб імпортувати необхідні бібліотеки потрібно:</a></b>
+у файл cmd/kbot.go в блок import додати наступне
+```cmd
+import (
+	"fmt"
+	"log"
+	"os"
+	"time"
+
+	"github.com/spf13/cobra"
+)
+```
 
 <b><a id="tele_token">Щоб встановити бібліотеку telebot.v3 потрібно:</a></b>
 у файл cmd/kbot.go в блок import додати рядок telebot "gopkg.in/telebot.v3"
@@ -74,18 +86,7 @@ import (
     telebot "gopkg.in/telebot.v3"
 )
 ```
-<b><a id="import_package">Щоб імпортувати необхідні бібліотеки потрібно:</a></b>
-у файл cmd/kbot.go в блок import додати наступне
-```cmd
-import (
-	"fmt"
-	"log"
-	"os"
-	"time"
 
-	"github.com/spf13/cobra"
-)
-```
 <b><a href="#get_token">Щоб отримати токен зі змінної середовища потрібно: </a></b>
 у файлі cmd/kbot.go додати в блок var () наступний рядок
 ```cmd
