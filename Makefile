@@ -1,8 +1,21 @@
 APP=$(basename $(shell git remote get-url origin))
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 REGISTRY=aripak
-TARGETOS=linux
-TARGETARCH=arm64
+TARGETARCH=$(shell dpkg --print-architecture)
+# Get-ChildItem Env:PROCESSOR_ARCHITECTURE
+
+ifeq ($(OS),Windows_NT)
+	OS = windows
+else 
+	UNAME := $(shell uname -s)
+	ifeq ($(UNAME),Darwin)
+		OS = macos
+	else ifeq ($(UNAME),Linux)
+		OS = linux 
+	else 
+		$(error OS not supported by this Makefile)
+	endif 
+endif
 
 format: 
 	gofmt -s -w ./
@@ -16,8 +29,12 @@ test:
 get:
 	go get
 
-build: format get
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X 'github.com/AlbertRipak/kbot/cmd.appVersion=${VERSION}'"
+build: format get 
+ifeq ($(OS),windows)
+	go build -v -o kbot.exe -ldflags "-X 'github.com/AlbertRipak/kbot/cmd.appVersion=${VERSION}'"
+else
+	CGO_ENABLED=0 GOOS=${OS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X 'github.com/AlbertRipak/kbot/cmd.appVersion=${VERSION}'"
+endif
 
 image: 
 	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
@@ -26,4 +43,8 @@ push:
 	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 clean: 
-	rm -rf kbot
+ifeq ($(OS),windows)
+	del .\kbot*
+else 
+	rm -rf kbot*
+endif
