@@ -29,7 +29,11 @@ else
 endif
 
 format: 
+ifeq ($(OS), windows) 
 	gofmt -s -w ./
+else 
+	$(shell gofmt -s -w ./)
+endif
 
 vet:
 ifeq ($(OS), windows) 
@@ -39,14 +43,24 @@ else
 endif
 
 test: 
-	go test -v 
+ifeq ($(OS), windows) 
+	go test -v
+else 
+	$(shell go test -v)
+endif
+
 
 # old function golint
 #lint:
 #	golint
 
 get:
+ifeq ($(OS), windows) 
 	go get
+else 
+	$(shell go get)
+endif
+	
 
 build: format get 
 ifeq ($(OS),windows)
@@ -74,8 +88,8 @@ windows: format vet test get build image push clean
 ####################### make linux #######################
 linux: format vet test get build image push clean
 
-####################### make arch ########################
-arch: format vet test get build image push clean
+######################## make arm ########################
+arm: format vet test get build image push clean
 
 ####################### make macos #######################
 macos: format vet test get build image push clean
