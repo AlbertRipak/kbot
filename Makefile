@@ -1,7 +1,6 @@
-APP=$(basename $(shell git remote get-url origin))
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 REGISTRY=aripak
-TARGETARCH=$(shell dpkg --print-architecture)
+
 # Get-ChildItem Env:PROCESSOR_ARCHITECTURE
 
 ifeq ($(OS),Windows_NT)
@@ -15,6 +14,18 @@ else
 	else 
 		$(error OS not supported by this Makefile)
 	endif 
+endif
+
+ifeq ($(OS),windows)
+	APP=kbot.git
+else
+	APP=$(shell basename $(shell git remote get-url origin))
+endif
+
+ifeq ($(OS),windows)
+	TARGETARCH=x64
+else
+	TARGETARCH=$(shell dpkg --print-architecture)
 endif
 
 format: 

@@ -61,6 +61,12 @@ to quickly create a Cobra application.`,
 			Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
 		})
 
+		// Перевіряємо наявність токена Телеграм
+		if err != nil {
+			log.Fatalf("Please check TELE_TOKEN env variable. %s", err)
+			return
+		}
+
 		menu.Reply(
 			menu.Row(btnStart),
 			menu.Row(btnHelp),
@@ -106,12 +112,6 @@ to quickly create a Cobra application.`,
 		kbot.Handle(&btnDate, func(c telebot.Context) error {
 			return c.Send(currentTime.String() + "\nБезкорисна функція! Но най буде 😌")
 		})
-
-		// Перевіряємо наявність токена Телеграм
-		if err != nil {
-			log.Fatalf("Please check TELE_TOKEN env variable. %s", err)
-			return
-		}
 
 		kbot.Handle(telebot.OnText, func(m telebot.Context) error {
 			log.Print(m.Message().Payload, m.Text())
