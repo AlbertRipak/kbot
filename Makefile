@@ -1,6 +1,7 @@
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 REGISTRY=aripak
 
+###################### make windows ######################
 # Get-ChildItem Env:PROCESSOR_ARCHITECTURE
 
 ifeq ($(OS),Windows_NT)
