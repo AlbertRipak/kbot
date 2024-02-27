@@ -1,7 +1,6 @@
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
 REGISTRY=aripak
 
-###################### make windows ######################
 # Get-ChildItem Env:PROCESSOR_ARCHITECTURE
 
 ifeq ($(OS),Windows_NT)
@@ -32,11 +31,19 @@ endif
 format: 
 	gofmt -s -w ./
 
-lint: 
-	golint
+vet:
+ifeq ($(OS), windows) 
+	go vet -all
+else 
+	$(shell go vet)
+endif
 
 test: 
 	go test -v 
+
+# old function golint
+#lint:
+#	golint
 
 get:
 	go get
@@ -60,3 +67,15 @@ ifeq ($(OS),windows)
 else 
 	rm -rf kbot*
 endif
+
+###################### make windows ######################
+windows: format vet test get build image push clean
+
+####################### make linux #######################
+linux: format vet test get build image push clean
+
+####################### make arch ########################
+arch: format vet test get build image push clean
+
+####################### make macos #######################
+macos: format vet test get build image push clean
