@@ -148,7 +148,7 @@ docker run --rm -e TARGETPLATFORM=linux/amd64 test-app
 
 Створюємо нову інстанцію Docker buildx з iм'ям mybuilder, завантажуємо та робимо поточною.
 ```bash
-buildx create --name kbotbuilder --platform linux/amd64,linux/arm64 --bootstrap --use
+docker buildx create --name kbotbuilder --platform linux/amd64,linux/arm64 --bootstrap --use
 ```
 # на рахунок цієї платформи - windows/amd64 (потрібно почитати документацію)
 docker buildx create - створює нову інстанцію buildx
@@ -164,8 +164,6 @@ docker buildx ls
 docker buildx build --platform linux/amd64,linux/arm64 -t aripak/kbot:latest --push .
 ```
 
-
-
 P.S.
 1. Для ємоджі використувувався сайт <a href="https://emojipedia.org/">emojipedia.org</a>!
 2. gofmt - це інструмент форматування коду Golang. Він використовує табуляцію для відступу та пробіли для вирівнювання. Вирівнювання передбачає, що редактор використовує шрифт фіксованої ширини.
@@ -178,15 +176,14 @@ P.S.
 gofmt -s -w ./
 ```
 4. <b><a id="PLATFORM">Різниця між BUILDPLATFORM та TARGETPLATFORM</a></b>
-BUILDPLATFORM та TARGETPLATFORM – це змінні, що використовуються в Dockerfile для динамічної побудови образів. Їх часто плутають, тому важливо розуміти різницю між ними:
-
-BUILDPLATFORM:
+<br>BUILDPLATFORM та TARGETPLATFORM – це змінні, що використовуються в Dockerfile для динамічної побудови образів. Їх часто плутають, тому важливо розуміти різницю між ними:
+<br>BUILDPLATFORM:
 
 Визначає платформу, на якій будується Docker-образ.
 Зазвичай використовується з buildx для динамічної побудови образів для різних платформ.
 Значення BUILDPLATFORM передається команді docker build за допомогою аргументу --build-arg:
 docker build --build-arg BUILDPLATFORM=linux/amd64 .
-TARGETPLATFORM:
+<br>TARGETPLATFORM:
 
 Визначає платформу, для якої будується код у вашому Docker-образі.
 Зазвичай використовується в інструкціях RUN для налаштування середовища компіляції та запуску.

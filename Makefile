@@ -23,9 +23,9 @@ else
 endif
 
 ifeq ($(OS),windows)
-	TARGETARCH=x64
+TARGETARCH=x64
 else
-	TARGETARCH=$(shell dpkg --print-architecture)
+TARGETARCH=$(shell dpkg --print-architecture)
 endif
 
 format: 
@@ -49,10 +49,6 @@ else
 	$(shell go test -v)
 endif
 
-# old function golint
-#lint:
-#	golint
-
 get:
 ifeq ($(OS), windows) 
 	go get
@@ -68,7 +64,18 @@ else
 endif
 
 image: 
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+ifeq ($(OS),windows)
+	docker build -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} .
+else 
+	UNAME := $(shell uname -s)
+	ifeq ($(UNAME),Darwin)
+		docker build --build-arg BUILDPLATFORM=linux/amd64 -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} .
+	else ifeq ($(UNAME),Linux)
+		docker build --build-arg BUILDPLATFORM=linux/amd64 -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} .
+	else 
+		docker build --build-arg BUILDPLATFORM=linux/arm64 -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} .
+	endif 
+endif
 
 push:
 	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
@@ -76,22 +83,26 @@ push:
 clean: 
 ifeq ($(OS),windows)
 	del .\kbot*
-	docker rm 
 else 
 	rm -rf kbot*
 endif
 
 ###################### make windows ######################
 windows: format vet test get build image push clean
-	docker run  -e TARGETPLATFORM=windows/amd64 kbot
+	docker run -e TARGETPLATFORM=windows/amd64 --name ${APP}_${VERSION}-${TARGETARCH} ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+	docker rmi --force ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+
 ####################### make linux #######################
 linux: format vet test get build image push clean
-	docker run  -e TARGETPLATFORM=linux/amd64 kbot
+	docker run -e TARGETPLATFORM=linux/amd64 kbot
+	docker rmi --force ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 ######################## make arm ########################
 arm: format vet test get build image push clean
-	docker run  -e TARGETPLATFORM=linux/arm64 kbot
+	docker run -e TARGETPLATFORM=linux/arm64 kbot
+	docker rmi --force ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 ####################### make macos #######################
 macos: format vet test get build image push clean
-docker run  -e TARGETPLATFORM=linux/amd64 test-kbot
+	ocker run -e TARGETPLATFORM=linux/amd64 test-kbot
+	docker rmi --force ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
