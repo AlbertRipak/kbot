@@ -1,5 +1,5 @@
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-REGISTRY=aripak
+REGISTRY=quay.io/albertripak
 
 # Get-ChildItem Env:PROCESSOR_ARCHITECTURE
 
@@ -17,7 +17,7 @@ else
 endif
 
 ifeq ($(OS),windows)
-	APP=kbot.git
+	APP=kbot
 else
 	APP=$(shell basename $(shell git remote get-url origin))
 endif
