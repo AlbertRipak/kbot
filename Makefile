@@ -49,7 +49,6 @@ else
 	$(shell go test -v)
 endif
 
-
 # old function golint
 #lint:
 #	golint
@@ -60,7 +59,6 @@ ifeq ($(OS), windows)
 else 
 	$(shell go get)
 endif
-	
 
 build: format get 
 ifeq ($(OS),windows)
@@ -78,18 +76,22 @@ push:
 clean: 
 ifeq ($(OS),windows)
 	del .\kbot*
+	docker rm 
 else 
 	rm -rf kbot*
 endif
 
 ###################### make windows ######################
 windows: format vet test get build image push clean
-
+	docker run  -e TARGETPLATFORM=windows/amd64 kbot
 ####################### make linux #######################
 linux: format vet test get build image push clean
+	docker run  -e TARGETPLATFORM=linux/amd64 kbot
 
 ######################## make arm ########################
 arm: format vet test get build image push clean
+	docker run  -e TARGETPLATFORM=linux/arm64 kbot
 
 ####################### make macos #######################
 macos: format vet test get build image push clean
+docker run  -e TARGETPLATFORM=linux/amd64 test-kbot

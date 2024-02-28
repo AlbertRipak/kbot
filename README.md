@@ -26,8 +26,9 @@
 | &bull; <a href="#about_message">Описати функцію-обробник, яка буде відповідати на повідомлення.</a>|
 | &bull; <a href="#build_bot">Зібрати, запустити та перевірити бота.</a>|
 | &bull; Створити файл <a href="https://github.com/AlbertRipak/kbot">README</a> з описом проєкту, посиланням на бота у форматі https://t.me/albertripak_bot, включаючи інструкції для встановлення та приклади використання команд.</a>|
-| &bull; <a href="https://github.com/AlbertRipak/kbot">Завантажити код на GitHub</a>.
-
+| &bull; <a href="https://github.com/AlbertRipak/kbot">Завантажити код на GitHub</a>.|
+| &bull; <a href="#buildx">Створення мульти-архітектуриний docker image.</a>.|
+| &bull; <b><a href="#PLATFORM">Різниця між BUILDPLATFORM та TARGETPLATFORM</a></b>|
 
  <a id="newProjectGit">![Image](./data/newProjectGit.gif)</a>
 
@@ -132,16 +133,93 @@ go build -ldflags "-X 'github.com/AlbertRipak/kbot/cmd.appVersion=1.0.5'"
 ./kbot start
 ```
 
+<a id="buildx">Docker: How to Build and Push multi-arch Docker Images to Docker Hub</a>
+Підготуємо Dockerfile
+І так, тут усе доволі цікаво! Я використовую в Dockerfile в конструкції FROM golang, golang є кросплатформовим imege'ом. В даному випадку ми будемо використовувати прапорець --platform.
+--platform - можна використовувати для визначення платформи зображення у тому випадко коли FROM посилається на багатоплатформне зображення. Наприклад linux/amd64,linux/arm64,windows/amd64...
+За замовчуванням використовується цільова платформа запиту на збірку. Глобальні агрументи збірки можна використовувати в занченні цього прапорця, наприклад, автоматичні ARG платформи дозволяють примусово перевести етап на власну платформу збірки (--platform=$BUILDPLATFORM) і використовувати його для крос-компіляції на цільову платформу всередині етап.
+$BUILDERPLATFORM - це змінна, яка визначається платформою, на якій вибдудовується Docker-образ.
+ARG TARGETPLATFORM - визначає аргумент TARGETPLATFORM, який буде використовуватися для тестування на різних платформах. 
+TARGETPLATFORM - використовується для вибору архітектури для компіляції нашого коду.
+```shell
+docker run --rm -e TARGETPLATFORM=linux/amd64 test-app
+```
+коли виконується вище наведена команда, значення змінної TARGETPLATFORM передається в Dockerfile після чого образ контейнера буде вибраний відповідно нашій змінній.
+
+Створюємо нову інстанцію Docker buildx з iм'ям mybuilder, завантажуємо та робимо поточною.
+```bash
+buildx create --name kbotbuilder --platform linux/amd64,linux/arm64 --bootstrap --use
+```
+# на рахунок цієї платформи - windows/amd64 (потрібно почитати документацію)
+docker buildx create - створює нову інстанцію buildx
+--name mybilder - задає ім'я для нового будівельника
+--botstrap - завантажує будівелник
+--use - робить mybuider поточною інстанцією будівельника
+Наступною командою переглядаємо доступні інстанції docker buildx
+```bash
+docker buildx ls
+```
+запускає buildx image
+```shell
+docker buildx build --platform linux/amd64,linux/arm64 -t aripak/kbot:latest --push .
+```
+
+
+
 P.S.
 1. Для ємоджі використувувався сайт <a href="https://emojipedia.org/">emojipedia.org</a>!
 2. gofmt - це інструмент форматування коду Golang. Він використовує табуляцію для відступу та пробіли для вирівнювання. Вирівнювання передбачає, що редактор використовує шрифт фіксованої ширини.
 Прапори:
 -s - цей прапор вказує gofmt форматувати код лише в режимі "стиснення". Це означає, що код буде форматований без змін в його логіці.
 -w - цей прапор вказує gofmt записувати зміни форматування назад до вихідних файлів.
+3. golint - згідно з інформаціює пошуковика гугл є застарілим, на його заміну прийшов go ven - перевіряє вихідний код Go та повідомляє про підозрілі конструкції як-от виклики Printf, аргументи яких не відповідають рядку формату.Vet використовує евристику, яка не гарантує, що всі звіти є справжніми проблемами, але вона може знаходити помилки, які не вловлюються компіляторами.
 
 ```go
 gofmt -s -w ./
 ```
+4. <b><a id="PLATFORM">Різниця між BUILDPLATFORM та TARGETPLATFORM</a></b>
+BUILDPLATFORM та TARGETPLATFORM – це змінні, що використовуються в Dockerfile для динамічної побудови образів. Їх часто плутають, тому важливо розуміти різницю між ними:
+
+BUILDPLATFORM:
+
+Визначає платформу, на якій будується Docker-образ.
+Зазвичай використовується з buildx для динамічної побудови образів для різних платформ.
+Значення BUILDPLATFORM передається команді docker build за допомогою аргументу --build-arg:
+docker build --build-arg BUILDPLATFORM=linux/amd64 .
+TARGETPLATFORM:
+
+Визначає платформу, для якої будується код у вашому Docker-образі.
+Зазвичай використовується в інструкціях RUN для налаштування середовища компіляції та запуску.
+Значення TARGETPLATFORM може бути встановлено в Dockerfile або передано команді docker run за допомогою аргументу -e:
+docker build -t my-app .
+docker run --rm -e TARGETPLATFORM=linux/amd64 my-app
+Приклад:
+
+Припустимо, ви хочете побудувати Docker-образ Go, який буде працювати на платформах linux/amd64 та arm64.
+Ви можете використовувати наступний Dockerfile:
+Dockerfile
+FROM --platform=$BUILDPLATFORM golang:1.22 as builder
+
+WORKDIR /app
+
+COPY . .
+
+RUN go build -o main -target $TARGETPLATFORM
+
+FROM scratch as runner
+
+COPY --from=builder /app/main /app/main
+
+CMD ["/app/main"]
+Використовуйте цей код обачно.
+У цьому прикладі:
+BUILDPLATFORM використовується для динамічної побудови образу Go для платформи, на якій вибудовується ваш проект.
+TARGETPLATFORM використовується для налаштування команди go build для компіляції коду Go для платформи linux/amd64 або arm64.
+Підсумок:
+
+BUILDPLATFORM визначає платформу, на якій будується Docker-образ.
+TARGETPLATFORM визначає платформу, для якої будується код у вашому Docker-образі.
+
 
 <a href="https://pkg.go.dev/cmd/gofmt">Документація по gofmt!</a>
 
